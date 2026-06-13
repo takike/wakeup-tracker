@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# RiseSync 🌅
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+毎朝の起床時間を美しく記録し、健康的な生活習慣づくりをサポートするWebアプリケーションです。
 
-Currently, two official plugins are available:
+Vite + React + TypeScript + Vanilla CSS のモダンな構成で構築されており、朝の光をイメージしたグラデーションとガラスモーフィズムを取り入れたプレミアムなUI/UXを提供します。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🔗 公開URL
+アプリは以下のURLから誰でもアクセスし、利用することができます。
 
-## React Compiler
+**[https://takike.github.io/wakeup-tracker/](https://takike.github.io/wakeup-tracker/)**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ 主な機能
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **ライブ時計 & クイック記録**
+   - 秒針が滑らかに動く、美しいデジタルクロックを搭載。
+   - 「起きた！」ボタンをワンタップするだけで、その日の起床時刻を記録します。
+   - クリック時には、ボタンの周りにキラキラが飛び散るインタラクティブなアニメーションが発生します。
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+2. **統計・推移分析 (Stats & Chart)**
+   - **平均起床時間**、**現在の連続記録日数（ストリーク）**、目標起床時間（デフォルトは07:00、設定で変更可能）に対する**目標達成率**を自動計算して表示します。
+   - 直近7日間の起床時間の推移を視覚化する、滑らかでレスポンシブな**折れ線グラフ（外部ライブラリ不使用、React+SVGでフルスクラッチ実装）**を表示します。
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. **履歴管理 (History List)**
+   - 過去の起床レコードを新しい順にリスト表示。
+   - 起床時刻に合わせて、自動的にタグが判定されます。
+     - `Early Bird 🌅`（06:00前）
+     - `Fresh Start ☀️`（06:00〜08:00）
+     - `Relaxed Morning ☕`（08:00以降）
+   - 記録し忘れた日のための「手動追加フォーム（アコーディオン式）」および誤記録を削除できる機能を備えています。
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+4. **設定 & データ管理 (Settings & Backup)**
+   - 目標起床時間の変更。
+   - **JSON形式でのエクスポート・インポート**: データはブラウザの `LocalStorage` に保存されますが、キャッシュクリアに備えてバックアップファイルをダウンロードし、いつでもデータを復元できます。
+   - デバイスから全データを完全にリセットする機能（デンジャーゾーン）。
+
+5. **体験用ダミーデータ自動生成**
+   - 初回起動時、LocalStorageにデータが存在しない場合は、すぐにグラフや統計の見た目を確認できるように、過去5日分の起床データが自動でセットアップされます。
+
+---
+
+## 🛠 技術スタック
+
+- **Frontend**: React (v19), TypeScript, Vite
+- **Styling**: Vanilla CSS (CSS変数、ガラスモーフィズム、カスタムキーフレームアニメーション)
+- **Icons**: `lucide-react`
+- **CI/CD**: GitHub Actions (GitHub Pages自動デプロイ)
+
+---
+
+## 💻 ローカルでの開発手順
+
+ローカル環境でプロジェクトを起動し、開発やカスタマイズを行う手順です。
+
+### 1. 依存関係のインストール
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. 開発サーバーの起動
+```bash
+npm run dev
+```
+起動後、ブラウザで [http://localhost:5173/](http://localhost:5173/) を開いてください。
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 3. プロダクションビルド
+```bash
+npm run build
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 📂 ディレクトリ構成
+```text
+src/
+├── assets/             # 静的アセット（ロゴ・アイコンなど）
+├── components/         # 各機能ごとのUIコンポーネント
+│   ├── Clock.tsx       # ライブデジタルクロック
+│   ├── Dashboard.tsx   # 記録ボタン・メモ入力・アニメーション
+│   ├── HistoryList.tsx # 履歴リスト・手動追加
+│   ├── Settings.tsx    # 目標時間設定・JSONエクスポート/インポート
+│   └── Stats.tsx       # 統計表示・SVGグラフ
+├── types.ts            # TypeScript型定義
+├── utils.ts            # 計算・時間フォーマット用ヘルパー関数
+├── App.tsx             # 状態管理・ルーティング・全体レイアウト
+├── index.css           # デザインシステム・グローバルスタイル
+└── main.tsx            # エントリポイント
 ```
